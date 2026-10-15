@@ -115,6 +115,29 @@ svg text { fill: var(--muted); font-family: var(--sans); font-size: 11px; }
 .stat .l { font-size: 11.5px; color: var(--muted); }
 .stat .n { font-family: var(--display); font-size: 22px; font-variant-numeric: tabular-nums; }
 
+/* CPI vs PCE explainer: the one tinted panel on the page */
+.vs { background: color-mix(in srgb, var(--accent) 10%, var(--panel)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 45%, transparent); }
+.vs h3 { margin-bottom: 4px; }
+.vs .lede { color: var(--muted); font-size: 14px; margin: 0 0 14px; max-width: 60ch; }
+.vs-head { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.vs-card { background: var(--panel); border-radius: 14px; padding: 12px; min-width: 0; }
+.vs-card .who { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+.vs-card .who b { font-family: var(--display); font-weight: 500; font-size: 24px; }
+.vs-card .who span { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+.vs-card .full { font-size: 12px; color: var(--muted); margin: 2px 0 10px; }
+.vs-num { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.vs-num .l { font-size: 12.5px; color: var(--muted); }
+.vs-num .n { font-family: var(--display); font-size: 22px; }
+.vs-gap { margin: 12px 0 4px; padding: 10px 12px; border-radius: 12px; background: var(--panel); font-size: 14px; }
+.vs-gap b { color: var(--accent); }
+.vs-table { margin-top: 12px; display: flex; flex-direction: column; }
+.vs-row { display: grid; grid-template-columns: 92px 1fr 1fr; gap: 10px; padding: 10px 0; border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); font-size: 13.5px; }
+.vs-row .k { font-size: 12px; font-weight: 600; color: var(--muted); }
+.vs-row div { min-width: 0; }
+.vs-fed { margin-top: 12px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+.vs-fed .star { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--panel); display: grid; place-items: center; font-weight: 600; font-size: 13px; }
+@media (max-width: 380px) { .vs-row { grid-template-columns: 1fr 1fr; } .vs-row .k { grid-column: 1 / -1; } }
+
 /* calendar */
 .next { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .next .panel .d { font-family: var(--display); font-size: 40px; line-height: 1; }
@@ -149,6 +172,7 @@ svg text { fill: var(--muted); font-family: var(--sans); font-size: 11px; }
       <h2>Where inflation sits against the Fed's 2% target</h2>
       <div class="thermo" id="thermo" aria-label="Inflation gauges on one scale"></div>
     </div>
+    <div class="panel vs" id="vs"></div>
     <div class="panel brief" id="brief"></div>
     <div class="panel"><h2>12-month change</h2><div class="rows" id="rows"></div></div>
     <div class="panel">
@@ -308,6 +332,40 @@ function drawThermo() {
   host.append(lanes, ax);
 }
 
+function drawVs() {
+  const c = latest('cpi'), cc = latest('core'), p = latest('pce'), pc = latest('pce_core');
+  const card = (name, full, badge, badgeColor, head, core) => el('div', { class: 'vs-card' },
+    el('div', { class: 'who' }, el('b', {}, name), el('span', { style: `background:color-mix(in srgb, ${badgeColor} 16%, transparent);color:${badgeColor}` }, badge)),
+    el('div', { class: 'full' }, full + ' · ' + mName(head[0])),
+    el('div', { class: 'vs-num' }, el('span', { class: 'l' }, 'Headline'), el('span', { class: 'n', style: `color:${heat(head[1])}` }, pct(head[1]))),
+    el('div', { class: 'vs-num' }, el('span', { class: 'l' }, 'Core'), el('span', { class: 'n', style: `color:${heat(core[1])}` }, pct(core[1]))));
+  const hg = c[1] - p[1], cg = pc[1] - cc[1];
+  const gapText = [];
+  gapText.push(el('span', {}, 'Headline: CPI runs ', el('b', {}, Math.abs(hg).toFixed(1) + ' pt ' + (hg >= 0 ? 'higher' : 'lower')), ' than PCE. '));
+  if (cg > 0.05) gapText.push(el('span', {}, 'Core: PCE runs ', el('b', {}, cg.toFixed(1) + ' pt higher'), ' than CPI. That is unusual; core CPI normally runs above core PCE. Housing is cooling, and it carries far more weight in CPI, which pulls core CPI down. PCE leans more on health care and other services that are still rising.'));
+  else if (cg < -0.05) gapText.push(el('span', {}, 'Core: CPI runs ', el('b', {}, Math.abs(cg).toFixed(1) + ' pt higher'), ' than PCE, the usual pattern. Housing carries more weight in CPI and has been rising faster than other prices.'));
+  else gapText.push(el('span', {}, 'Core: the two are about equal this month.'));
+  const rows = [
+    ['Measures', 'What you pay out of pocket', 'Everything bought for households, including what employers and Medicare pay for you'],
+    ['Biggest weight', `Housing: ${'about a third'} of the basket`, 'Housing counts for much less; health care counts for much more'],
+    ['Basket', 'Fixed basket, updated once a year', 'Adjusts monthly as people switch to cheaper options, so it usually runs a bit lower'],
+    ['Published by', 'BLS, mid-month', 'BEA, about two weeks later'],
+    ['Used for', 'Social Security raises, TIPS, wage contracts, tax brackets', "The Fed's 2% target"],
+  ];
+  document.getElementById('vs').replaceChildren(
+    el('h3', {}, 'CPI vs PCE: two gauges, one question'),
+    el('p', { class: 'lede' }, 'Both measure how fast prices rise. They count different things, so they rarely match. Here is how they compare.'),
+    el('div', { class: 'vs-head' },
+      card('CPI', 'Consumer Price Index', 'Your wallet', 'var(--s2)', c, cc),
+      card('PCE', 'Personal Consumption Expenditures', "Fed's gauge", 'var(--accent)', p, pc)),
+    el('div', { class: 'vs-gap' }, ...gapText),
+    el('div', { class: 'vs-table' },
+      el('div', { class: 'vs-row', style: 'border-top:0;padding-top:4px' }, el('div', { class: 'k' }, ''), el('div', { class: 'k', style: 'color:var(--s2)' }, 'CPI'), el('div', { class: 'k', style: 'color:var(--accent)' }, 'PCE')),
+      ...rows.map(([k, a, b]) => el('div', { class: 'vs-row' }, el('div', { class: 'k' }, k), el('div', {}, a), el('div', {}, b)))),
+    el('div', { class: 'vs-fed' }, el('span', { class: 'star', 'aria-hidden': 'true' }, '!'),
+      el('div', {}, el('b', {}, 'Which one matters? '), 'For the Fed and interest rates, watch core PCE. For your budget, Social Security and TIPS, CPI is the number that counts.')));
+}
+
 function drawBrief() {
   const b = D.briefing, host = document.getElementById('brief');
   host.replaceChildren(
@@ -430,7 +488,7 @@ function drawCal() {
 
 /* ---------- shell ---------- */
 const TITLES = { today: 'Today', drivers: 'Drivers', pace: 'Pace', outlook: 'Outlook', cal: 'Releases' };
-const DRAW = { today: () => { drawThermo(); drawBrief(); drawRows(); drawTrend(); }, drivers: drawDrivers, pace: drawPace, outlook: drawOutlook, cal: drawCal };
+const DRAW = { today: () => { drawThermo(); drawVs(); drawBrief(); drawRows(); drawTrend(); }, drivers: drawDrivers, pace: drawPace, outlook: drawOutlook, cal: drawCal };
 let cur = 'today';
 function go(t) {
   cur = t;
