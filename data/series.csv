@@ -1,0 +1,32 @@
+key,fred_id,label,group,class,latest_month,source,url
+cpi,CPIAUCNS,CPI — All items,headline,,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CPIAUCNS
+core,CPILFENS,Core CPI (ex food & energy),headline,,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CPILFENS
+energy,CPIENGNS,Energy,cpi_major,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CPIENGNS
+gasoline,CUUR0000SETB01,Gasoline,cpi_sub,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SETB01
+electricity,CUUR0000SEHF01,Electricity,cpi_sub,Semi-sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SEHF01
+natgas,CUUR0000SEHF02,Utility (piped) gas,cpi_sub,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SEHF02
+food,CPIUFDNS,Food,cpi_major,Mixed,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CPIUFDNS
+food_home,CUUR0000SAF11,Food at home,cpi_sub,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAF11
+food_away,CUUR0000SEFV,Food away from home,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SEFV
+core_goods,CUUR0000SACL1E,Core goods,cpi_major,Tariff-sensitive,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SACL1E
+apparel,CPIAPPNS,Apparel,cpi_sub,Tariff-sensitive,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CPIAPPNS
+furnishings,CUUR0000SAH3,Household furnishings & operations,cpi_sub,Tariff-sensitive,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAH3
+new_veh,CUUR0000SETA01,New vehicles,cpi_sub,Tariff-sensitive,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SETA01
+used_veh,CUUR0000SETA02,Used cars & trucks,cpi_sub,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SETA02
+med_goods,CUUR0000SAM1,Medical care commodities,cpi_sub,Mixed,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAM1
+core_svc,CUUR0000SASLE,Core services,cpi_major,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SASLE
+shelter,CUUR0000SAH1,Shelter,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAH1
+oer,CUUR0000SEHC,Owners' equivalent rent,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SEHC
+rent,CUUR0000SEHA,Rent of primary residence,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SEHA
+transport_svc,CUUR0000SAS4,Transportation services,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAS4
+airline,CUUR0000SETG01,Airline fares,cpi_sub,Transitory,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SETG01
+med_svc,CUUR0000SAM2,Medical care services,cpi_sub,Sticky,2026-09,"BLS CPI-U, not seasonally adjusted (via FRED mirror)",https://fred.stlouisfed.org/series/CUUR0000SAM2
+pce,PCEPI,PCE price index,pce,,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/PCEPI
+pce_core,PCEPILFE,Core PCE,pce,,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/PCEPILFE
+pce_goods,DGDSRG3M086SBEA,PCE goods,pce_sub,Mixed,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DGDSRG3M086SBEA
+pce_durable,DDURRG3M086SBEA,PCE durable goods,pce_sub,Tariff-sensitive,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DDURRG3M086SBEA
+pce_nondurable,DNDGRG3M086SBEA,PCE nondurable goods,pce_sub,Mixed,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DNDGRG3M086SBEA
+pce_services,DSERRG3M086SBEA,PCE services,pce_sub,Sticky,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DSERRG3M086SBEA
+pce_energy,DNRGRG3M086SBEA,PCE energy,pce_sub,Transitory,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DNRGRG3M086SBEA
+pce_food,DFXARG3M086SBEA,PCE food at home,pce_sub,Mixed,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/DFXARG3M086SBEA
+pce_supercore,IA001260M,PCE services ex energy & housing,pce_sub,Sticky,2026-08,BEA Personal Income & Outlays (via FRED mirror),https://fred.stlouisfed.org/series/IA001260M
