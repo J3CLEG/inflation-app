@@ -25,5 +25,15 @@ m = re.search(r"<title>.*?</title>\n?", frag)
 title = m.group(0) if m else "<title>Inflation Monitor</title>\n"
 frag = frag.replace(m.group(0), "") if m else frag
 head = head.replace("<meta charset=\"utf-8\">\n", "<meta charset=\"utf-8\">\n" + title)
-open(sys.argv[2], "w").write(head + frag + "\n</body>\n</html>\n")
+import json, os, datetime
+stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d%H%M%S")
+# Self-update: the page compares its own build stamp with version.json (fetched past the cache)
+# and reloads when a newer build is out. iOS home-screen apps otherwise keep stale copies.
+updater = """<script>
+(function(){var me=%s;function check(){fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(v){if(v&&v.build&&v.build!==me){location.replace(location.pathname+'?v='+v.build+location.hash)}}).catch(function(){})}
+check();document.addEventListener('visibilitychange',function(){if(!document.hidden)check()});})();
+</script>
+""" % json.dumps(stamp)
+open(sys.argv[2], "w").write(head + frag + "\n" + updater + "</body>\n</html>\n")
+json.dump({"build": stamp}, open(os.path.join(os.path.dirname(os.path.abspath(sys.argv[2])), "version.json"), "w"))
 print("wrote", sys.argv[2])
