@@ -20,5 +20,10 @@ head = """<!doctype html>
 """
 # the artifact contract line is only meaningful on claude.ai
 frag = frag.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', '')
+import re
+m = re.search(r"<title>.*?</title>\n?", frag)
+title = m.group(0) if m else "<title>Inflation Monitor</title>\n"
+frag = frag.replace(m.group(0), "") if m else frag
+head = head.replace("<meta charset=\"utf-8\">\n", "<meta charset=\"utf-8\">\n" + title)
 open(sys.argv[2], "w").write(head + frag + "\n</body>\n</html>\n")
 print("wrote", sys.argv[2])
